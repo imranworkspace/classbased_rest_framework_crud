@@ -30,4 +30,12 @@ class StudentView(APIView):
             serializer.save()
             return Response({'msg':'complete data updated successfully'},status=status.HTTP_202_ACCEPTED)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    def patch(self,request,pk,format=None):
+        id=pk
+        stu = StudentModel.objects.get(pk=id)
+        serializer = StudentSerializers(stu,data=request.data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':'partially data updated successfully'},status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
